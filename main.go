@@ -32,7 +32,7 @@ func defaultGet(w http.ResponseWriter, r *http.Request) {
         return
 }
 
-func defaultPost(w http.ResponseWriter, r *http.Request) {
+func defaultPostPut(w http.ResponseWriter, r *http.Request) {
         path := r.URL.Path
         log.Printf("path: %v", path)
         query := r.URL.Query()
@@ -41,32 +41,10 @@ func defaultPost(w http.ResponseWriter, r *http.Request) {
         log.Printf("Content-Type: %v", content) 
         if (content == "application/x-www-form-urlencoded") {
             b, _ := io.ReadAll(r.Body)
-            log.Println(string(b))
+            log.Printf("Body:%v",string(b))
         } else if (content == "application/json") {
             b, _ := io.ReadAll(r.Body)
-            log.Println(string(b))
-        }
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(http.StatusOK)
-        m := map[string]string{"status": "ok"}
-        if err := json.NewEncoder(w).Encode(m); err != nil {
-            log.Println(err)
-        }
-}
-
-func defaultPut(w http.ResponseWriter, r *http.Request) {
-        path := r.URL.Path
-        log.Printf("path: %v", path)
-        query := r.URL.Query()
-        log.Printf("QueryString: %v", query)
-        content := r.Header.Get("Content-Type")
-        log.Printf("Content-Type: %v", content) 
-        if (content == "application/x-www-form-urlencoded") {
-            b, _ := io.ReadAll(r.Body)
-            log.Println(b)
-        } else if (content == "application/json") {
-            b, _ := io.ReadAll(r.Body)
-            log.Println(b)
+            log.Printf("Body:%v",string(b))
         }
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
@@ -85,9 +63,9 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
         case "GET":
 		defaultGet(w,r)
         case "POST":
-		defaultPost(w,r)
+		defaultPostPut(w,r)
         case "PUT":
-		defaultPut(w,r)
+		defaultPostPut(w,r)
 	}
 	return
 }
