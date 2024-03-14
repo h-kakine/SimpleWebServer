@@ -11,6 +11,8 @@ import (
 func defaultHead(w http.ResponseWriter, r *http.Request) {
         path := r.URL.Path
         log.Printf("path: %v", path)
+        rawQuery := r.URL.RawQuery
+        log.Printf("RawQueryString: %v", rawQuery)
         query := r.URL.Query()
         log.Printf("QueryString: %v", query)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -37,6 +39,8 @@ func defaultGet(w http.ResponseWriter, r *http.Request) {
 func defaultPostPut(w http.ResponseWriter, r *http.Request) {
         path := r.URL.Path
         log.Printf("path: %v", path)
+        rawQuery := r.URL.RawQuery
+        log.Printf("RawQueryString: %v", rawQuery)
         query := r.URL.Query()
         log.Printf("QueryString: %v", query)
         content := r.Header.Get("Content-Type")
